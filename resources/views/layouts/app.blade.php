@@ -85,6 +85,7 @@
         }
 
         .nav a,
+        .nav button,
         .btn {
             display: inline-flex;
             align-items: center;
@@ -98,11 +99,22 @@
             cursor: pointer;
         }
 
+        .nav form {
+            margin: 0;
+        }
+
         .nav a {
             color: var(--muted);
         }
 
-        .nav a:hover {
+        .nav button {
+            background: transparent;
+            color: var(--muted);
+            font: inherit;
+        }
+
+        .nav a:hover,
+        .nav button:hover {
             background: #edf4f4;
             color: var(--brand-dark);
         }
@@ -217,8 +229,17 @@
                     <span>Product Manager</span>
                 </a>
                 <nav class="nav" aria-label="Main navigation">
-                    <a href="{{ route('products.index') }}">Products</a>
-                    <a href="{{ route('products.create') }}">Add Product</a>
+                    @auth
+                        <a href="{{ route('products.index') }}">Products</a>
+                        <a href="{{ route('products.create') }}">Add Product</a>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit">Logout</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}">Login</a>
+                        <a href="{{ route('register') }}">Register</a>
+                    @endauth
                 </nav>
             </div>
         </header>
